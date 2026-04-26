@@ -1,0 +1,7 @@
+numpy==1.26.4
+torch
+transformers==4.44.2
+trl==0.11.4
+accelerate==0.33.0
+datasets==2.20.0
+matplotlib
