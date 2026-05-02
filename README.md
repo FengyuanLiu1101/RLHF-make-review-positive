@@ -1,117 +1,63 @@
-# 🧠 RLHF Text Optimization with PPO
+# RLHF Text Optimization with PPO
 
-This project implements a simplified **Reinforcement Learning from Human Feedback (RLHF)** pipeline using **Proximal Policy Optimization (PPO)** to improve text generation quality based on reward signals.
+This project implements a compact Reinforcement Learning from Human Feedback
+(RLHF) workflow that nudges GPT-2 style movie-review generations toward a
+positive tone using Proximal Policy Optimization (PPO).
 
-The system uses a pretrained language model as a policy and a sentiment classifier as a reward model to optimize generated outputs.
+The notebook uses:
 
----
+- `distilgpt2` as the policy model.
+- `lvwerra/distilbert-imdb` as a sentiment-based reward model.
+- Hugging Face TRL's `PPOTrainer` for policy updates.
 
-## 🚀 Features
+> Sentiment is a simplified preference proxy, not a replacement for
+> human-labeled preference data.
 
-- ✅ RLHF training loop using PPO
-- ✅ Hugging Face TRL integration
-- ✅ Reward modeling via sentiment analysis
-- ✅ Before/After generation comparison
-- ✅ Fully runnable in Google Colab
+## Project Structure
 
----
-
-## 🧩 Project Structure
-
-
+```text
 .
-├── RLHF_HW(4).ipynb # Main training notebook
-├── README.md # Project documentation
-└── requirements.txt # Dependencies (optional)
-
-
----
-
-## ⚙️ Methodology
-
-This project follows a simplified RLHF pipeline:
-
-### 1. Policy Model
-- A pretrained language model (e.g. GPT-2)
-- Generates text based on prompts
-
-### 2. Reward Model
-- A sentiment classifier (e.g. DistilBERT)
-- Assigns scores:
-  - Positive → higher reward
-  - Negative → lower reward
-
-### 3. PPO Optimization
-- Updates the policy model to maximize reward
-- Maintains stability via KL divergence penalty
-
----
-
-## 🔁 Training Workflow
-
-1. Input prompt → generate text
-2. Evaluate text using reward model
-3. Compute reward score
-4. Update model via PPO
-5. Repeat
-
----
-
-## 📊 Example Output
-
-### Before RLHF:
-```
-"The movie was okay but I didn't like the ending..."
+├── RLHF_HW_fixed.ipynb  # Main Colab/Jupyter notebook
+├── README.md           # Project documentation
+└── requirements.txt    # Pinned notebook dependencies
 ```
 
-### After RLHF:
-```
-"The movie was absolutely amazing and I loved every moment of it!"
-```
+## Setup
 
----
-
-## 🧪 Technologies Used
-
-- Python
-- PyTorch
-- Hugging Face Transformers
-- Hugging Face TRL (PPOTrainer)
-- Google Colab
-
----
-
-## 📦 Installation
+Python 3.10+ is recommended.
 
 ```bash
-pip install transformers datasets trl accelerate
-▶️ Run the Project
+pip install -r requirements.txt
+```
 
-You can run the notebook directly:
+For Google Colab, open the notebook and run the first dependency cell. After
+that cell finishes, restart the runtime as instructed in the notebook, then run
+the remaining cells from top to bottom.
 
-jupyter notebook RLHF_HW(4).ipynb
+## Run
 
-Or upload to Google Colab for easier execution.
+```bash
+jupyter notebook RLHF_HW_fixed.ipynb
+```
 
-⚠️ Known Issues
-Dependency conflicts (e.g. numpy version)
-PPO training may be slow without GPU
-Reward model is simplified (sentiment ≠ human preference)
-💡 Future Improvements
-Replace sentiment reward with human-labeled data
-Add multi-objective rewards (toxicity, helpfulness)
-Improve model architecture (larger LLMs)
-Add evaluation metrics (BLEU, ROUGE, human eval)
-📚 Learning Goals
+The workflow:
 
-This project demonstrates:
+1. Load the policy model and frozen reference model.
+2. Build positive-review prompts from IMDB examples.
+3. Generate policy responses.
+4. Score only the generated response text with the reward model.
+5. Update the policy with PPO.
+6. Compare baseline and trained response rewards on held-out prompts.
 
-How RLHF works in practice
-How PPO is applied to language models
-The role of reward models in LLM alignment
-🧑‍💻 Author
-Name: Fengyuan Liu
-Program: Computer Science / AI
-University: Purdue University Northwest
-📜 License
-MIT License
+## Known Limitations
+
+- The reward model measures positive sentiment, not overall review quality.
+- PPO training is slow without a GPU.
+- Small models can over-optimize sentiment words instead of producing better
+  reviews.
+- Human preference labels and multi-objective rewards would make this closer to
+  production RLHF.
+
+## Author
+
+Fengyuan Liu
