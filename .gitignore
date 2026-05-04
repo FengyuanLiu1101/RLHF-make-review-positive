@@ -1,0 +1,7 @@
+__pycache__/
+.ipynb_checkpoints/
+.pytest_cache/
+
+# Notebook runtime outputs
+rlhf_positive_gpt2_trl/
+ppo_positive_imdb/
