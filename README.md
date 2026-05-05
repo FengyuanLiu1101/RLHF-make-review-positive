@@ -47,7 +47,7 @@ NumPy 1.26.x during PyTorch-format dataset iteration (see Troubleshooting).
 
 ## Run
 
-### Kaggle
+### Kaggle/Colab
 
 Open the uploaded notebook, enable **GPU T4 x2**, then **Run All** from the first cell.
 
@@ -73,6 +73,7 @@ The workflow:
    explicit `POSITIVE` / `NEGATIVE` labels, classifier confidences,
    per-prompt reward deltas, and a `NEG→POS` / `POS→NEG` flip column,
    plus aggregate flip-rate and mean-reward statistics.
+(There is an output in Fixed file)
 
 ## Known Limitations
 
